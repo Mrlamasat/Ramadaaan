@@ -5,6 +5,7 @@ const MY_TG_URL = "https://t.me/RamadanSeries26";
 const TIKTOK_URL = "https://www.tiktok.com/@1118.8111?_r=1&_t=ZG-93qhRpdxK5Y";
 const BASE_URL = "https://laroza.bond/category.php?cat=ramadan-2026";
 
+// أيقونة تيك توك بتصميم بسيط متوافق مع كودك
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.39-.01 2.34.01 4.68-.01 7.02-.14 5.74-7.41 8.26-10.89 4.39-2.38-2.61-1.23-7.1 2.22-8.02.82-.21 1.69-.21 2.53-.08V11c-1.3-.17-2.66-.13-3.92.3-3.05 1.05-4.43 5.18-2.62 7.9 1.76 2.65 5.8 3.06 8 1 1.41-1.31 1.69-3.41 1.69-5.21V.02Z"/>
@@ -20,20 +21,77 @@ export default function App() {
   };
 
   return (
-    <div className="relative h-screen w-screen bg-black flex flex-col overflow-hidden" dir="rtl">
+    <div className="relative h-screen w-screen bg-[#050505] overflow-hidden" dir="rtl">
       
-      {/* هيدر التطبيق العلوي */}
-      <header className="h-[65px] bg-[#0c0c16] flex items-center justify-around z-[100] border-b border-red-600/40">
-        <button onClick={() => setUrl(`${BASE_URL}&v=${Date.now()}`)} className="text-gray-300 flex flex-col items-center active:scale-90 transition-transform">
+      {/* هيدر التطبيق (نفس كودك الأصلي تماماً) */}
+      <div className="fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-around z-[100] border-b border-red-600/40 shadow-2xl">
+        <button onClick={() => setUrl(`${BASE_URL}&v=${Date.now()}`)} className="text-gray-300 flex flex-col items-center active:scale-95 transition-all">
           <Home size={20} className="text-red-500" />
           <span className="text-[10px] mt-1 font-bold">الرئيسية</span>
         </button>
         
-        <button onClick={handleRefresh} className="text-gray-300 flex flex-col items-center active:scale-90 transition-transform">
+        <button onClick={handleRefresh} className="text-gray-300 flex flex-col items-center active:scale-95 transition-all">
           <RefreshCw size={20} className="text-green-500" />
           <span className="text-[10px] mt-1 font-bold">تحديث</span>
         </button>
 
+        <a href={MY_TG_URL} target="_blank" rel="noreferrer" className="text-white flex flex-col items-center active:scale-95 transition-all">
+          <Send size={20} className="text-blue-400" />
+          <span className="text-[10px] mt-1 font-bold">قناتنا</span>
+        </a>
+
+        <button onClick={() => navigator.share({url: window.location.href})} className="text-gray-300 flex flex-col items-center active:scale-95 transition-all">
+          <Share2 size={20} className="text-purple-500" />
+          <span className="text-[10px] mt-1 font-bold">مشاركة</span>
+        </button>
+      </div>
+
+      {/* منطقة العرض (نفس قياسات كودك الناجح تماماً) */}
+      <div className="absolute top-[65px] left-0 w-full h-[calc(100vh-65px)] bg-black overflow-hidden">
+        <div className="w-full h-full overflow-hidden">
+          <iframe
+            ref={iframeRef}
+            src={url}
+            className="w-[102%] h-[150%] border-none"
+            style={{ 
+              marginTop: '-275px', 
+              marginLeft: '-1%', 
+              transform: 'scale(1.02)', 
+              transformOrigin: 'top center'
+            }}
+            referrerPolicy="no-referrer"
+            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+
+        {/* أزرار تيك توك وتليجرام مدمجة فوق طبقة الحماية في الأسفل */}
+        <div className="absolute bottom-5 left-0 w-full flex justify-center gap-4 z-[500] pointer-events-none">
+          <a href={TIKTOK_URL} target="_blank" rel="noreferrer" className="pointer-events-auto flex items-center gap-2 bg-[#fe2c55] text-white px-4 py-2 rounded-full font-bold shadow-lg">
+             <TikTokIcon className="w-4 h-4" />
+             <span className="text-xs">تيك توك</span>
+          </a>
+          <a href={MY_TG_URL} target="_blank" rel="noreferrer" className="pointer-events-auto flex items-center gap-2 bg-[#229ED9] text-white px-4 py-2 rounded-full font-bold shadow-lg">
+             <Send size={16} />
+             <span className="text-xs">تليجرام</span>
+          </a>
+        </div>
+
+        {/* طبقة حماية لمسية (نفس كودك الأصلي) */}
+        <div className="absolute bottom-0 left-0 w-full h-[120px] bg-transparent z-[99] pointer-events-auto"></div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        iframe { pointer-events: auto !important; }
+        a[href*="t.me/larozavip"], a[href*="youtube.com"] {
+          display: none !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+      `}} />
+    </div>
+  );
+}
         <a href={MY_TG_URL} target="_blank" rel="noreferrer" className="text-white flex flex-col items-center active:scale-90 transition-transform">
           <Send size={20} className="text-blue-400" />
           <span className="text-[10px] mt-1 font-bold">قناتنا</span>
