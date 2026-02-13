@@ -5,7 +5,6 @@ const MY_TG_URL = "https://t.me/RamadanSeries26";
 const TIKTOK_URL = "https://www.tiktok.com/@1118.8111?_r=1&_t=ZG-93qhRpdxK5Y";
 const WHATSAPP_URL = "https://whatsapp.com/channel/0029VbCPDBw4tRs210hx2D3a"; 
 const BASE_URL = "https://laroza.bond/category.php?cat=ramadan-2026";
-const BASE_URL_MINIMAL = "https://laroza.bond/category.php?cat=ramadan-2026&minimal=1"; // نسخة لإخفاء الهيدر الداخلي
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
@@ -23,14 +22,7 @@ export default function App() {
   };
 
   const toggleFullscreen = () => {
-    setIsMaximized(prev => {
-      if (!prev) {
-        setUrl(BASE_URL_MINIMAL); // عند التكبير استخدم نسخة Minimal لإخفاء الهيدر الداخلي
-      } else {
-        setUrl(BASE_URL); // عند تصغير الشاشة ارجع للنسخة العادية
-      }
-      return !prev;
-    });
+    setIsMaximized(prev => !prev);
   };
 
   return (
@@ -56,15 +48,15 @@ export default function App() {
         </button>
       </header>
 
-      {/* iframe */}
-      <main className="w-full h-full mt-[65px]">
+      {/* iframe مع قص الهيدر الأصلي */}
+      <main className={`w-full h-full mt-[65px] overflow-hidden transition-all duration-500`}>
         <iframe
           ref={iframeRef}
           src={url}
-          className="border-none w-full h-full"
+          className="border-none w-full transition-all duration-500"
           style={{
-            width: '100%',
-            height: '100%',
+            height: isMaximized ? '120%' : '150%', // رفع المحتوى لإخفاء الهيدر الأصلي
+            marginTop: isMaximized ? '-65px' : '-80px', // يرفع الصفحة لإخفاء الهيدر الأصلي
           }}
           referrerPolicy="no-referrer"
           allow="autoplay; fullscreen"
@@ -94,4 +86,4 @@ export default function App() {
       </div>
     </div>
   );
-}
+      }
