@@ -97,10 +97,11 @@ export default function App() {
             referrerPolicy="no-referrer"
             allow="autoplay; fullscreen"
             allowFullScreen
+            sandbox="allow-scripts allow-same-origin allow-forms" // ← التعديل المهم
           />
         </div>
 
-        {/* الأزرار العائمة - نظام تحول المربعات الممركزة */}
+        {/* الأزرار العائمة */}
         <div className={`absolute left-0 w-full flex items-center z-[500] pointer-events-none transition-all duration-700 ${isMaximized ? 'bottom-10 justify-center gap-2' : 'bottom-24 justify-between px-6'}`}>
           
           <div className={`flex transition-all duration-700 ${isMaximized ? 'gap-2' : 'gap-4'}`}>
