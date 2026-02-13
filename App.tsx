@@ -23,8 +23,11 @@ export default function App() {
   };
 
   const toggleFullscreen = async () => {
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
     if (!isMaximized) {
-      if (appContainerRef.current?.requestFullscreen) {
+      if (!isIOS && appContainerRef.current?.requestFullscreen) {
         await appContainerRef.current.requestFullscreen();
       }
       setIsMaximized(true);
@@ -32,7 +35,7 @@ export default function App() {
         screen.orientation.lock('landscape').catch(() => {});
       }
     } else {
-      if (document.exitFullscreen) {
+      if (!isIOS && document.exitFullscreen) {
         document.exitFullscreen();
       }
       setIsMaximized(false);
@@ -54,7 +57,7 @@ export default function App() {
     <div ref={appContainerRef} className="relative h-screen w-screen bg-black overflow-hidden" dir="rtl">
       
       {/* الهيدر العلوي */}
-      <header className={`fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-between px-8 z-[100] border-b border-red-600/40 transition-transform duration-500 ${isMaximized ? '-translate-y-full' : 'translate-y-0'}`}>
+      <header className={`fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-between px-8 z-[100] border-b border-red-600/40 transition-transform duration-500 ${isMaximized ? '-translate-y-full md:translate-y-0' : 'translate-y-0'}`}>
         <button onClick={() => setUrl(`${BASE_URL}&v=${Date.now()}`)} className="text-gray-300 flex flex-col items-center active:scale-90 outline-none">
           <Home size={22} className="text-red-500" />
           <span className="text-[9px] mt-1 font-bold">الرئيسية</span>
@@ -75,17 +78,16 @@ export default function App() {
 
       {/* منطقة المشغل */}
       <main className={`relative w-full transition-all duration-700 ${isMaximized ? 'h-screen' : 'h-[calc(100vh-65px)] mt-[65px]'}`}>
-        <div className="w-full h-full overflow-hidden bg-black">
+        <div className="w-full h-full overflow-hidden bg-black relative">
           <iframe
             ref={iframeRef}
             src={url}
             className="border-none transition-all duration-700"
             style={isMaximized ? {
-              width: '100%',
-              height: '180%',
-              marginTop: '-15%',
-              transform: 'scale(1.1)',
-              transformOrigin: 'top center'
+              width: '100vw',
+              height: '100vh',
+              margin: 0,
+              transform: 'none'
             } : {
               width: '102%',
               height: '150%',
@@ -97,7 +99,7 @@ export default function App() {
             referrerPolicy="no-referrer"
             allow="autoplay; fullscreen"
             allowFullScreen
-            sandbox="allow-scripts allow-same-origin allow-forms" // ← التعديل المهم
+            sandbox="allow-scripts allow-same-origin allow-forms"
           />
         </div>
 
