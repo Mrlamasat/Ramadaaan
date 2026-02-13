@@ -6,7 +6,6 @@ const TIKTOK_URL = "https://www.tiktok.com/@1118.8111?_r=1&_t=ZG-93qhRpdxK5Y";
 const WHATSAPP_URL = "https://whatsapp.com/channel/0029VbCPDBw4tRs210hx2D3a"; 
 const BASE_URL = "https://laroza.bond/category.php?cat=ramadan-2026";
 
-// أيقونات مخصصة
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.39-.01 2.34.01 4.68-.01 7.02-.14 5.74-7.41 8.26-10.89 4.39-2.38-2.61-1.23-7.1 2.22-8.02.82-.21 1.69-.21 2.53-.08V11c-1.3-.17-2.66-.13-3.92.3-3.05 1.05-4.43 5.18-2.62 7.9 1.76 2.65 5.8 3.06 8 1 1.41-1.31 1.69-3.41 1.69-5.21V.02Z"/>
@@ -24,7 +23,7 @@ export default function App() {
   return (
     <div className="relative h-screen w-screen bg-[#050505] overflow-hidden" dir="rtl">
       
-      {/* هيدر التطبيق العلوي */}
+      {/* هيدر التطبيق */}
       <div className="fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-around z-[100] border-b border-red-600/40 shadow-2xl">
         <button onClick={() => setUrl(`${BASE_URL}&v=${Date.now()}`)} className="text-gray-300 flex flex-col items-center active:scale-95 transition-all">
           <Home size={20} className="text-red-500" />
@@ -57,22 +56,25 @@ export default function App() {
               transformOrigin: 'top center'
             }}
             referrerPolicy="no-referrer"
-            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            
+            /* تم إضافة التعديل هنا لتفعيل ملء الشاشة */
+            allow="autoplay; fullscreen; webkitallowfullscreen; mozallowfullscreen; xr-spatial-tracking; encrypted-media; picture-in-picture"
+            
+            /* أضفنا allow-presentation لضمان عمل التكبير */
+            sandbox="allow-forms allow-scripts allow-same-origin allow-presentation allow-pointer-lock"
+            
             allowFullScreen
           />
         </div>
 
-        {/* الأزرار العائمة - تم رفعها وتكبيرها وتحديث زر واتساب */}
+        {/* الأزرار العائمة المتحركة */}
         <div className="absolute bottom-28 left-0 w-full flex justify-center items-center gap-4 z-[500] pointer-events-none px-4">
-          
-          {/* زر واتساب - جديد */}
           <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" 
              className="pointer-events-auto flex items-center gap-3 bg-[#25D366] text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(37,211,102,0.6)] hover:scale-110 active:scale-90 transition-all animate-bounce-slow">
             <MessageCircle size={24} />
             <span className="text-sm">واتساب</span>
           </a>
 
-          {/* زر تيك توك */}
           <a href={TIKTOK_URL} target="_blank" rel="noreferrer" 
              className="pointer-events-auto flex items-center gap-3 bg-[#000000] border border-white/30 text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-110 active:scale-90 transition-all animate-bounce-slow" 
              style={{ animationDelay: '0.2s' }}>
@@ -80,7 +82,6 @@ export default function App() {
             <span className="text-sm">تيك توك</span>
           </a>
 
-          {/* زر تليجرام */}
           <a href={MY_TG_URL} target="_blank" rel="noreferrer" 
              className="pointer-events-auto flex items-center gap-3 bg-[#229ED9] text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(34,158,217,0.6)] hover:scale-110 active:scale-90 transition-all animate-bounce-slow" 
              style={{ animationDelay: '0.4s' }}>
