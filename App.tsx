@@ -57,17 +57,13 @@ export default function App() {
             }}
             referrerPolicy="no-referrer"
             
-            /* تم إضافة التعديل هنا لتفعيل ملء الشاشة */
-            allow="autoplay; fullscreen; webkitallowfullscreen; mozallowfullscreen; xr-spatial-tracking; encrypted-media; picture-in-picture"
-            
-            /* أضفنا allow-presentation لضمان عمل التكبير */
-            sandbox="allow-forms allow-scripts allow-same-origin allow-presentation allow-pointer-lock"
-            
+            /* تم حذف sandbox تماماً هنا لفك الحظر للأبد وتفعيل Fullscreen */
+            allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
           />
         </div>
 
-        {/* الأزرار العائمة المتحركة */}
+        {/* الأزرار العائمة المرفوعة والمكبرة */}
         <div className="absolute bottom-28 left-0 w-full flex justify-center items-center gap-4 z-[500] pointer-events-none px-4">
           <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" 
              className="pointer-events-auto flex items-center gap-3 bg-[#25D366] text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(37,211,102,0.6)] hover:scale-110 active:scale-90 transition-all animate-bounce-slow">
@@ -83,26 +79,4 @@ export default function App() {
           </a>
 
           <a href={MY_TG_URL} target="_blank" rel="noreferrer" 
-             className="pointer-events-auto flex items-center gap-3 bg-[#229ED9] text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(34,158,217,0.6)] hover:scale-110 active:scale-90 transition-all animate-bounce-slow" 
-             style={{ animationDelay: '0.4s' }}>
-            <Send size={24} />
-            <span className="text-sm">تليجرام</span>
-          </a>
-        </div>
-
-        <div className="absolute bottom-0 left-0 w-full h-[140px] bg-transparent z-[99] pointer-events-auto"></div>
-      </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 3s infinite ease-in-out;
-        }
-        iframe { pointer-events: auto !important; }
-      `}} />
-    </div>
-  );
-}
+             className="pointer-events-auto flex items-center gap-3 bg-[#229ED9] text-white px-6 py-4 rounded-full font-black shadow-[0_0_20px_rgba(34,158,217,0.6)] hover:scale-110 active:scale-90 transition
