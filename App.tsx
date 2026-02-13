@@ -5,6 +5,7 @@ const MY_TG_URL = "https://t.me/RamadanSeries26";
 const TIKTOK_URL = "https://www.tiktok.com/@1118.8111?_r=1&_t=ZG-93qhRpdxK5Y";
 const WHATSAPP_URL = "https://whatsapp.com/channel/0029VbCPDBw4tRs210hx2D3a"; 
 const BASE_URL = "https://laroza.bond/category.php?cat=ramadan-2026";
+const BASE_URL_MINIMAL = "https://laroza.bond/category.php?cat=ramadan-2026&minimal=1"; // نسخة لإخفاء الهيدر الداخلي
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
@@ -22,14 +23,21 @@ export default function App() {
   };
 
   const toggleFullscreen = () => {
-    setIsMaximized(prev => !prev);
+    setIsMaximized(prev => {
+      if (!prev) {
+        setUrl(BASE_URL_MINIMAL); // عند التكبير استخدم نسخة Minimal لإخفاء الهيدر الداخلي
+      } else {
+        setUrl(BASE_URL); // عند تصغير الشاشة ارجع للنسخة العادية
+      }
+      return !prev;
+    });
   };
 
   return (
     <div className="relative w-screen h-screen bg-black" dir="rtl">
 
-      {/* الهيدر */}
-      <header className={`fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-between px-8 z-[100] border-b border-red-600/40 transition-all duration-500 ${isMaximized ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      {/* الهيدر الخاص بالتطبيق يبقى دائمًا */}
+      <header className="fixed top-0 left-0 w-full h-[65px] bg-[#0c0c16] flex items-center justify-between px-8 z-[100] border-b border-red-600/40">
         <button onClick={() => setUrl(`${BASE_URL}&v=${Date.now()}`)} className="text-gray-300 flex flex-col items-center active:scale-90 outline-none">
           <Home size={22} className="text-red-500" />
           <span className="text-[9px] mt-1 font-bold">الرئيسية</span>
@@ -49,7 +57,7 @@ export default function App() {
       </header>
 
       {/* iframe */}
-      <main className="w-full h-full">
+      <main className="w-full h-full mt-[65px]">
         <iframe
           ref={iframeRef}
           src={url}
@@ -65,9 +73,8 @@ export default function App() {
         />
       </main>
 
-      {/* الأزرار العائمة مع تحريك Fade + Translate عند التكبير */}
-      <div className={`fixed left-0 w-full flex justify-center gap-4 z-[500] transition-all duration-500
-          ${isMaximized ? 'bottom-6 opacity-90' : 'bottom-4 opacity-100'}`}>
+      {/* الأزرار العائمة */}
+      <div className={`fixed left-0 w-full flex justify-center gap-4 z-[500] transition-all duration-500 bottom-4`}>
         <a href={WHATSAPP_URL} target="_blank" rel="noreferrer"
            className="flex items-center justify-center bg-[#25D366] text-white shadow-lg w-14 h-14 rounded-full transition-transform duration-300 hover:scale-110 active:scale-90">
           <MessageCircle size={28} />
@@ -85,11 +92,6 @@ export default function App() {
           {isMaximized ? <Minimize size={28} /> : <Maximize size={28} />}
         </button>
       </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .animate-bounce-slow { animation: bounce-slow 3s infinite ease-in-out; }
-      `}} />
     </div>
   );
 }
